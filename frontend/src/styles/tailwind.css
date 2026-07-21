@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Body background uses the custom color */
+body {
+  margin: 0;
+  background-color: #0A1E3F; /* night-blue */
+  font-family: 'Georgia', serif;
+  color: #CBD5E1; /* moon-gray */
+}
