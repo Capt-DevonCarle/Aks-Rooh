@@ -1,35 +1,21 @@
-import React from 'react';
-
-export default function EntryList({ entries }) {
-  if (!entries.length) {
-    return (
-      <p className="mt-10 text-center text-star-yellow/80 italic max-w-xl mx-auto">
-        Your soul garden is still quiet... start by sharing your first thought above.
-      </p>
-    );
-  }
-
-  return (
-    <div className="max-w-xl mx-auto mt-12 space-y-6">
-      {entries.map(({ id, text, date }) => (
-        <div
-          key={id}
-          className="bg-night-blue bg-opacity-60 rounded-2xl p-4 shadow-md relative border border-leaf-green"
-          aria-label={`Journal entry for ${new Date(date).toLocaleDateString()}`}
-        >
-          <p className="text-moon-gray">
-            {text.length > 140 ? `${text.slice(0, 137)}...` : text}
-          </p>
-          <time className="block mt-2 text-star-yellow text-sm font-mono">
-            {new Date(date).toLocaleDateString()}
-          </time>
-          {/* Small “plant” icon */}
-          <span
-            className="absolute top-2 right-2 w-4 h-4 bg-leaf-green rounded-full animate-leaf-drift"
-            aria-hidden="true"
-          />
-        </div>
-      ))}
-    </div>
-  );
+import React, { useState } from 'react';
+import { formatDate } from '../utils/dates';
+const icons = ['☁', '◔', '☾', '☀', '✦'];
+export default function EntryList({ entries, onDelete }) {
+  const [visibleCount, setVisibleCount] = useState(6);
+  const [deletingId, setDeletingId] = useState(null);
+  const visibleEntries = entries.slice(0, visibleCount);
+  const deleteEntry = async (id) => {
+    if (!window.confirm('Delete this reflection permanently?')) return;
+    setDeletingId(id);
+    try {
+      await onDelete(id);
+    } finally {
+      setDeletingId(null);
+    }
+  };
+  return <section className="entries-section reveal"><div className="section-title"><div><p className="eyebrow">YOUR RECENT BLOOMS</p><h2>Reflections you’ve tended</h2></div><span>{entries.length} total</span></div>
+    <div className="entries-grid">{visibleEntries.map((entry) => <article className="entry-card" key={entry.id}><div className="entry-meta"><span>{icons[entry.mood - 1] || '•'} {formatDate(entry.date, { month: 'short', day: 'numeric' })}</span>{!entry.id.startsWith('seed') && <button onClick={() => deleteEntry(entry.id)} disabled={deletingId !== null} aria-label="Delete journal entry">{deletingId === entry.id ? '…' : '×'}</button>}</div><p>{entry.text}</p><span className="entry-leaf">⌁</span></article>)}</div>
+    {visibleCount < entries.length && <button className="insights-link" onClick={() => setVisibleCount((count) => count + 6)}>Show more reflections <span>→</span></button>}
+  </section>;
 }

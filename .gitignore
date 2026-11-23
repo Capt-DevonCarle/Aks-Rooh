@@ -56,4 +56,3 @@ replace_*.py
 patch_*.py
 cleanup_*.py
 organize.py
-start.bat
