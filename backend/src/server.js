@@ -18,7 +18,7 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'replace-with-a-long-r
 
 const app = express();
 const port = Number(process.env.PORT || 4000);
-const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000,http://127.0.0.1:3000';
+const clientOrigin = process.env.CLIENT_ORIGIN || 'http://localhost:3000,http://127.0.0.1:3000,https://capt-devoncarle.github.io';
 const allowedOrigins = clientOrigin.split(',').map((s) => s.trim());
 app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json({ limit: '100kb' }));

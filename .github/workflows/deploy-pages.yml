@@ -30,7 +30,7 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         env:
-          REACT_APP_API_URL: ${{ vars.REACT_APP_API_URL }}
+          REACT_APP_API_URL: https://prescribed-apparel-labor-fog.trycloudflare.com/api
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
