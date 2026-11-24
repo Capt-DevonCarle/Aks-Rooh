@@ -30,7 +30,7 @@ jobs:
       - name: Build frontend
         working-directory: frontend
         env:
-          REACT_APP_API_URL: https://kurt-trying-dictionary-shanghai.trycloudflare.com/api
+          REACT_APP_API_URL: https://roy-twist-mailman-blonde.trycloudflare.com/api
         run: npm run build
       - uses: actions/upload-pages-artifact@v3
         with:
